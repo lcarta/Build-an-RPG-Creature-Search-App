@@ -243,8 +243,14 @@ td {
     right: 30px;
   }
 
+  .arrow span:hover {
+    border-radius: 50%;
+    box-shadow: none;
+    animation: none;
+  }
+
   #card {
-    width: 240px;
+    width: 280px;
     margin: 5px auto;
   }
 }
