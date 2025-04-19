@@ -44,6 +44,7 @@ h1 {
   width: 180px;
   height: 30px;
   font-size: 15px;
+  padding-left: 5px;
   border-radius: 2px;
   outline-offset: 0px;
   outline: 2px solid #023e8a;
@@ -68,9 +69,6 @@ h1 {
 }
 
 
-#card-container {
-  margin: 10px;
-}
 
 
 #card-viewer {
@@ -84,19 +82,21 @@ h1 {
 
 .arrow {
   width: 40px;
+  cursor: pointer;
 }
 
 .arrow span {
   position: relative;
-  cursor: pointer;
 }
 
-#left-arrow span {
+#left-arrow {
   left: 10px;
+  display: none;
 }
 
-#right-arrow span {
+#right-arrow {
   left: -10px;
+  display: none;
 }
 
 .arrow span:hover {
@@ -107,14 +107,15 @@ h1 {
 
 
 #card {
+  display: none;
   border-radius: 10px;
   box-shadow: 9px 10px 20px 6px #352e2d;
-  width: 250px;
+  width: 280px;
   margin: 3px;
   color: #2b2d42;
 }
 
-#border-card {
+#background-card {
   background-color: #e5989b;
   width: 100%;
   padding: 5px 20px;
@@ -145,22 +146,93 @@ h1 {
   margin-bottom: 10px;
 }
 
-#types-container {
+#types {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: flex-start;
   margin-bottom: 10px;
 }
 
-#types {
+.type {
   width: 50px;
   height: 20px;
-  background-color: #00b4d8;
+  margin-right: 5px;
+}
+
+#fire {
+  background-color: #e80909
+}
+
+#water {
+  background-color: #108cda
+}
+
+#rock {
+  background-color: #d4a373
+}
+
+#electric {
+  background-color: #ffbe0b
+}
+
+#dragon {
+  color: white;
+  background: linear-gradient(90deg, rgb(121, 20, 160), rgb(8, 111, 8), rgb(121, 20, 160), rgb(8, 111, 8))
+}
+
+#grass {
+  background-color: rgb(16, 169, 16)
+}
+
+#poison {
+  background-color: rgb(159, 29, 210)
+}
+
+#ice {
+  background-color: #93c7e8
+}
+
+#fairy {
+  background-color: rgb(219, 171, 238)
+}
+
+
+#ground {
+  color: white;
+  background-color: rgb(64, 53, 53)
+}
+
+
+#flying {
+  background-color: #f9fafb
+}
+
+#bug {
+  background-color: rgb(164, 169, 16)
+}
+
+#dark {
+  color: white;
+  background-color: black
+}
+
+#psychic {
+  color: rgb(210, 210, 210);
+  background: radial-gradient(yellow, black, yellow, black)
+}
+
+#steel {
+  background-color: grey
+}
+
+#ghost {
+  background-color: #4ea4da40
 }
 
 tbody tr:nth-child(odd) {
   background-color: #f7ede2;
 }
+
 
 #special-weapon {
   text-align: left;
@@ -180,7 +252,6 @@ table {
   border: 2px solid #f7ede2
 }
 
-thead {}
 
 th,
 td {
@@ -227,11 +298,11 @@ td {
 
   }
 
+
   .arrow {
     width: 30px;
     position: absolute;
     top: 240px;
-
   }
 
   #left-arrow {
