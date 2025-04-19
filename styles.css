@@ -292,27 +292,10 @@ td {
     min-width: 280px;
   }
 
-
-  #card-viewer {
-    display: block;
-
-  }
-
-
   .arrow {
     width: 30px;
-    position: absolute;
-    top: 240px;
   }
 
-  #left-arrow {
-    left: 30px;
-  }
-
-
-  #right-arrow {
-    right: 30px;
-  }
 
   .arrow span:hover {
     border-radius: 50%;
@@ -321,7 +304,7 @@ td {
   }
 
   #card {
-    width: 280px;
+    width: 270px;
     margin: 5px auto;
   }
 }
