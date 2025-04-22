@@ -1,5 +1,7 @@
 const searchInput = document.getElementById("search-input");
 const searchBtn = document.getElementById("search-button");
+const cardContainer = document.getElementById("card-container");
+const backgroundCard = document.getElementById("background-card");
 const leftArrowBtn = document.getElementById("left-arrow");
 const rightArrowBtn = document.getElementById("right-arrow");
 const card = document.getElementById("card");
@@ -8,6 +10,7 @@ const creatureId = document.getElementById("creature-id");
 const creatureWeight = document.getElementById("weight");
 const creatureHeight = document.getElementById("height");
 const creatureTypes = document.getElementById("types");
+const noMoreLoad = document.getElementById("no-more-load");
 const specialWeapon = document.getElementById("special-weapon");
 const creatureHp = document.getElementById("hp");
 const creatureAttack = document.getElementById("attack");
@@ -22,8 +25,6 @@ const creature = "https://rpg-creature-api.freecodecamp.rocks/api/creature/";
 let allTypes = "";
 let indexId = 0;
 
-const isMonsterNotExist = (dataMonster) => dataMonster.every((monster) => monster.id != searchInput.value && monster.name != searchInput.value)
-
 
 const fetchData = async (value) => {
   const creatureName = creature + value
@@ -31,55 +32,40 @@ const fetchData = async (value) => {
     const res = await fetch(creatureName);
     const data = await res.json();
     updateUI(data);
+    searchInput.value = "";
   } catch (err) {
-    alert("Monster not found");
-    card.style.display = "none";
-    leftArrowBtn.style.display = "none";
-    rightArrowBtn.style.display = "none";
-    resetUI();
     console.log(err)
+    alert("Monster not found");
+    cardContainer.style.display = "none";
+    resetUI();
   }
 }
 
-const fillAllTypes = (types) => types.forEach((type) => {
-  allTypes += `<p class="type" id="${type.name}">${type.name}</p>`;
-});
+const fillAllTypes = (types) => {
+  backgroundCard.style.background = `linear-gradient(180deg,pink,var(--background-color-${types[0].name}),var(--background-color-${types[1] ? types[1].name : types[0].name}))`;
+  types.forEach((type) => {
+    console.log(type);
 
+    allTypes += `<p class="type" id="${type.name}">${type.name}</p>`;
+  });
+}
 
 const fillTable = (stats) => {
-  stats.forEach((stat) => {
-    switch (stat.name) {
-      case 'hp':
-        creatureHp.innerHTML = stat.base_stat;
-        break;
-      case 'attack':
-        creatureAttack.innerHTML = stat.base_stat;
-        break;
-      case 'defense':
-        creatureDefense.innerHTML = stat.base_stat;
-        break;
-      case 'special-attack':
-        creaturespecialAttack.innerHTML = stat.base_stat;
-        break;
-      case 'special-defense':
-        creatureSpecialDefense.innerHTML = stat.base_stat;
-        break;
-      case 'speed':
-        creatureSpeed.innerHTML = stat.base_stat;
-        break;
-    }
-  })
+  creatureHp.innerHTML = stats[0].base_stat;
+  creatureAttack.innerHTML = stats[1].base_stat;
+  creatureDefense.innerHTML = stats[2].base_stat;
+  creaturespecialAttack.innerHTML = stats[3].base_stat;
+  creatureSpecialDefense.innerHTML = stats[4].base_stat;
+  creatureSpeed.innerHTML = stats[5].base_stat;
 }
 
 
 const updateUI = (monster) => {
-  card.style.display = "block";
-  leftArrowBtn.style.display = "block";
-  rightArrowBtn.style.display = "block";
+  cardContainer.style.display = "block";
+  noMoreLoad.innerText = "";
+  card.style.opacity = 1;
   const { name, id, weight, height, types, special, stats } = monster;
   indexId = id;
-  console.log(indexId)
-
   fillAllTypes(types);
   creatureName.innerText = name;
   creatureId.innerText = `#${id}`;
@@ -93,8 +79,6 @@ const updateUI = (monster) => {
   fillTable(stats);
   allTypes = "";
 }
-
-
 
 
 const resetUI = () => {
@@ -114,20 +98,60 @@ const resetUI = () => {
 
 
 
-searchBtn.addEventListener("click", () => fetchData(searchInput.value))
+const noMoreMonster = () => {
+  noMoreLoad.innerText = "No more creatures to load";
+  card.style.opacity = 0.3;
+  setTimeout(() => {
+    card.style.opacity = 1;
+    noMoreLoad.innerText = "";
+  }, 1500)
+}
+
+searchBtn.addEventListener("click", () => fetchData(searchInput.value));
+
 leftArrowBtn.addEventListener("click", () => {
   if (indexId === 1) {
-    leftArrowBtn.style.cursor = "not-allowed";
+    noMoreMonster();
     return
   }
-  rightArrowBtn.style.cursor = "pointer";
   fetchData(indexId - 1)
 })
 rightArrowBtn.addEventListener("click", () => {
   if (indexId === 20) {
-    rightArrowBtn.style.cursor = "not-allowed";
+    noMoreMonster();
     return
   }
-  leftArrowBtn.style.cursor = "pointer";
   fetchData(indexId + 1)
 })
+
+class Swipe {
+  constructor() {
+    this.positionXStart = 0;
+    this.positionXEnd = 0;
+  }
+  touchStart(event) {
+    this.positionXStart = event.changedTouches[0].screenX;
+  }
+  touchEnd(event) {
+    this.positionXEnd = event.changedTouches[0].screenX;
+    if (this.positionXStart < this.positionXEnd) {
+      if (indexId > 1) {
+        noMoreLoad.innerText = "";
+        fetchData(indexId - 1);
+      } else noMoreMonster();
+    }
+    if (this.positionXStart > this.positionXEnd) {
+      if (indexId < 20) {
+        noMoreLoad.innerText = "";
+        fetchData(indexId + 1);
+      } else noMoreMonster();
+    }
+  }
+}
+
+
+const feelSwipe = new Swipe;
+
+card.addEventListener('touchstart', (event) => feelSwipe.touchStart(event));
+
+card.addEventListener('touchend', (event) => feelSwipe.touchEnd(event));

@@ -5,14 +5,31 @@
   text-decoration: none;
 }
 
-:root {}
+:root {
+  --background-color-fire: #e80909;
+  --background-color-water: #108cda;
+  --background-color-rock: #d4a373;
+  --background-color-electric: #ffbe0b;
+  --background-color-dragon: linear-gradient(90deg, rgb(121, 20, 160), rgb(8, 111, 8), rgb(121, 20, 160), rgb(8, 111, 8));
+  --background-color-grass: rgb(16, 169, 16);
+  --background-color-poison: rgb(159, 29, 210);
+  --background-color-ice: #93c7e8;
+  --background-color-fairy: rgb(219, 171, 238);
+  --background-color-ground: rgb(64, 53, 53);
+  --background-color-flying: #f9fafb;
+  --background-color-bug: rgb(164, 169, 16);
+  --background-color-dark: black;
+  --background-color-psychic: radial-gradient(yellow, black, yellow, black);
+  --background-color-steel: grey;
+  --background-color-ghost: #4ea4da40;
+}
 
 
 body {
   background-color: #2b2d42;
   color: #fec5bb;
   text-align: center;
-  padding: 30px;
+  margin: 30px auto;
 }
 
 
@@ -26,7 +43,8 @@ h1 {
   text-align: center;
   margin: 30px auto 0 auto;
   max-width: 470px;
-  padding: 5%;
+  min-width: 300px;
+  padding: 10px 20px;
   border-radius: 5px;
 }
 
@@ -68,7 +86,9 @@ h1 {
   background: linear-gradient(180deg, #b5838d 5%, #e5989b 50%)
 }
 
-
+#card-container {
+  display: none;
+}
 
 
 #card-viewer {
@@ -91,12 +111,10 @@ h1 {
 
 #left-arrow {
   left: 10px;
-  display: none;
 }
 
 #right-arrow {
   left: -10px;
-  display: none;
 }
 
 .arrow span:hover {
@@ -107,10 +125,10 @@ h1 {
 
 
 #card {
-  display: none;
   border-radius: 10px;
   box-shadow: 9px 10px 20px 6px #352e2d;
   width: 280px;
+  height: 450px;
   margin: 3px;
   color: #2b2d42;
 }
@@ -119,7 +137,7 @@ h1 {
   background-color: #e5989b;
   width: 100%;
   padding: 5px 20px;
-  height: 420px;
+  height: 100%;
   border-radius: 10px;
 }
 
@@ -133,9 +151,9 @@ h1 {
 #description-viewer-container {
   background-color: #f7ede2;
   margin: 0 auto;
-  height: 160px;
+  height: 180px;
   border-radius: 10px;
-  padding: 10px;
+  padding: 5%;
 }
 
 #weight-height-paragraph {
@@ -154,83 +172,80 @@ h1 {
 }
 
 .type {
-  width: 50px;
-  height: 20px;
+  width: fit-content;
+  padding: 4px 8px;
+  height: fit-content;
   margin-right: 5px;
 }
 
 #fire {
-  background-color: #e80909
+  background-color: var(--background-color-fire);
 }
 
 #water {
-  background-color: #108cda
+  background-color: var(--background-color-water);
 }
 
 #rock {
-  background-color: #d4a373
+  background-color: var(--background-color-rock);
 }
 
 #electric {
-  background-color: #ffbe0b
+  background-color: var(--background-color-electric);
 }
 
 #dragon {
   color: white;
-  background: linear-gradient(90deg, rgb(121, 20, 160), rgb(8, 111, 8), rgb(121, 20, 160), rgb(8, 111, 8))
+  background: var(--background-color-dragon);
 }
 
 #grass {
-  background-color: rgb(16, 169, 16)
+  background-color: var(--background-color-grass)
 }
 
 #poison {
-  background-color: rgb(159, 29, 210)
+  background-color: var(--background-color-poison)
 }
 
 #ice {
-  background-color: #93c7e8
+  background-color: var(--background-color-ice)
 }
 
 #fairy {
-  background-color: rgb(219, 171, 238)
+  background-color: var(--background-color-fairy)
 }
 
 
 #ground {
   color: white;
-  background-color: rgb(64, 53, 53)
+  background-color: var(--background-color-ground)
 }
 
 
 #flying {
-  background-color: #f9fafb
+  background-color: var(--background-color-flying);
 }
 
 #bug {
-  background-color: rgb(164, 169, 16)
+  background-color: var(--background-color-bug);
 }
 
 #dark {
   color: white;
-  background-color: black
+  background-color: var(--background-color-dark)
 }
 
 #psychic {
   color: rgb(210, 210, 210);
-  background: radial-gradient(yellow, black, yellow, black)
+  background: var(--background-color-psychic)
 }
 
 #steel {
-  background-color: grey
+  background-color: var(--background-color-steel)
 }
 
 #ghost {
-  background-color: #4ea4da40
-}
-
-tbody tr:nth-child(odd) {
-  background-color: #f7ede2;
+  background-color: var(--background-color-ghost)
 }
 
 
@@ -245,7 +260,7 @@ tbody tr:nth-child(odd) {
 
 table {
   margin: 5px auto;
-  padding: 5px;
+  padding: 5%;
   border-radius: 10px;
   width: 100%;
   text-align: left;
@@ -253,10 +268,26 @@ table {
 }
 
 
+tbody tr:nth-child(odd) {
+  background-color: #f7ede2;
+}
+
+
 th,
 td {
   padding: 3px;
 }
+
+#no-more-load {
+  color: white;
+  font-size: 1.5em;
+  position: relative;
+  top: 225px;
+  height: 0;
+  overflow: visible;
+  z-index: 1000;
+}
+
 
 @keyframes search-animation {
   0% {
@@ -292,19 +323,13 @@ td {
     min-width: 280px;
   }
 
+
+  #card-viewer {
+    justify-content: center
+  }
+
   .arrow {
-    width: 30px;
+    display: none;
   }
 
-
-  .arrow span:hover {
-    border-radius: 50%;
-    box-shadow: none;
-    animation: none;
-  }
-
-  #card {
-    width: 270px;
-    margin: 5px auto;
-  }
 }
