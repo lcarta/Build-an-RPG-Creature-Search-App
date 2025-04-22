@@ -42,10 +42,9 @@ const fetchData = async (value) => {
 }
 
 const fillAllTypes = (types) => {
-  backgroundCard.style.background = `linear-gradient(180deg,pink,var(--background-color-${types[0].name}),var(--background-color-${types[1] ? types[1].name : types[0].name}))`;
+  backgroundCard.style.background = `linear-gradient(180deg,pink,var(--background-color-${types[0].name}),
+  var(--background-color-${types[1] ? types[1].name : types[0].name}))`;
   types.forEach((type) => {
-    console.log(type);
-
     allTypes += `<p class="type" id="${type.name}">${type.name}</p>`;
   });
 }
