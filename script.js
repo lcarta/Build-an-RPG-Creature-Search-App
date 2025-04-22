@@ -42,7 +42,7 @@ const fetchData = async (value) => {
 }
 
 const fillAllTypes = (types) => {
-  backgroundCard.style.background = `linear-gradient(180deg,pink,var(--background-color-${types[0].name}),
+  backgroundCard.style.backgroundImage = `linear-gradient(180deg,pink,var(--background-color-${types[0].name}),
   var(--background-color-${types[1] ? types[1].name : types[0].name}))`;
   types.forEach((type) => {
     allTypes += `<p class="type" id="${type.name}">${type.name}</p>`;
@@ -133,24 +133,25 @@ class Swipe {
   }
   touchEnd(event) {
     this.positionXEnd = event.changedTouches[0].screenX;
-    if (this.positionXStart < this.positionXEnd) {
-      if (indexId > 1) {
-        noMoreLoad.innerText = "";
-        fetchData(indexId - 1);
-      } else noMoreMonster();
-    }
-    if (this.positionXStart > this.positionXEnd) {
-      if (indexId < 20) {
-        noMoreLoad.innerText = "";
-        fetchData(indexId + 1);
-      } else noMoreMonster();
+    if (Math.abs(this.positionXStart - this.positionXEnd) > 20) {
+      if (this.positionXStart < this.positionXEnd) {
+        if (indexId > 1) {
+          noMoreLoad.innerText = "";
+          fetchData(indexId - 1);
+        } else noMoreMonster();
+      }
+      if (this.positionXStart > this.positionXEnd) {
+        if (indexId < 20) {
+          noMoreLoad.innerText = "";
+          fetchData(indexId + 1);
+        } else noMoreMonster();
+      }
     }
   }
 }
 
+const swipe = new Swipe;
 
-const feelSwipe = new Swipe;
+card.addEventListener('touchstart', (event) => swipe.touchStart(event));
 
-card.addEventListener('touchstart', (event) => feelSwipe.touchStart(event));
-
-card.addEventListener('touchend', (event) => feelSwipe.touchEnd(event));
+card.addEventListener('touchend', (event) => swipe.touchEnd(event));
